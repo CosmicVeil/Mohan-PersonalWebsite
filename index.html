@@ -1,142 +1,296 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Portfolio of Mohan Dixit, an incoming University of Waterloo Computer Science student." />
-    <title>Mohan Dixit — Computer Science &amp; ML</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="grain" aria-hidden="true"></div>
-    <header class="site-header">
-      <a class="wordmark" href="#top" aria-label="Mohan Dixit — back to top">MD<span>✦</span></a>
-      <nav aria-label="Primary navigation">
-        <a href="#work">Work</a>
-        <a href="#proof">Milestones</a>
-        <a href="#about">About</a>
-      </nav>
-      <div class="header-actions"><a class="resume-link" href="assets/mohan-dixit-resume.pdf" target="_blank" download>Resume <span>↓</span></a><a class="header-email" href="mailto:mohan.dixit2008@email.com">Get in touch <span>↗</span></a></div>
-    </header>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mohan Dixit</title>
+<meta name="description" content="Mohan Dixit studies computer science at the University of Waterloo and does competition math, programming and chess.">
+<meta name="color-scheme" content="light dark">
+<script>
+  // Runs before first paint so the page never flashes the wrong theme.
+  // A saved choice wins; otherwise follow the system setting.
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("theme"); } catch (e) {}
+    var dark = saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --muted: #666;
+    --rule: #ddd;
+  }
+  [data-theme="dark"] {
+    --bg: #000;
+    --fg: #fff;
+    --muted: #999;
+    --rule: #333;
+  }
 
-    <main id="top">
-      <section class="hero section-shell" aria-labelledby="hero-title">
-        <div class="hero-kicker"><span class="status-dot"></span> Incoming CS student · University of Waterloo</div>
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">TORONTO, CANADA / 2026</p>
-            <h1 id="hero-title">Hi, I’m Mohan.</h1>
-            <p class="hero-summary">I spend a lot of time with math problems, code editors, and chess boards. I enjoy building useful software, learning how systems work, and sharing what I know.</p>
-            <p class="hero-note">This is a small collection of the projects, competitions, and communities that have shaped how I approach a problem.</p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="assets/mohan-dixit-resume.pdf" target="_blank" download>Download resume <span>↓</span></a>
-              <a class="text-link" href="#work">Explore selected work <span>↓</span></a>
-            </div>
-          </div>
-          <aside class="signal-panel" aria-label="Current interests">
-            <div class="signal-topline"><span>RIGHT NOW</span><span>2026</span></div>
-            <div class="signal-core">
-              <p>Getting ready for</p>
-              <strong>Waterloo CS<br />and my first co-op.</strong>
-            </div>
-            <ul class="now-list"><li>Machine learning</li><li>Data-driven sports</li><li>Competitive programming</li><li>Teaching and community</li></ul>
-          </aside>
-        </div>
-        <div class="hero-footnote"><span>A few things I care about</span><span class="line"></span><span>↓</span></div>
-      </section>
+  * { box-sizing: border-box; }
 
-      <section class="work section-shell" id="work" aria-labelledby="work-title">
-        <div class="section-heading" data-reveal>
-          <div><p class="eyebrow">01 / RECENT WORK</p><h2 id="work-title">Things I’ve<br /><em>been making.</em></h2></div>
-          <p>A few projects where I got to explore data, systems, and the details that make software useful.</p>
-        </div>
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "STIX Two Text", "STIX Two", Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
 
-        <div class="project-list">
-          <article class="project project-featured" data-reveal>
-            <div class="project-number">01</div>
-            <div class="project-content">
-              <div class="project-label">PREDICTIVE ANALYTICS / 2025—PRESENT</div>
-              <h3><a href="https://courtvision.works/" target="_blank" rel="noreferrer">Court Vision <span>↗</span></a></h3>
-              <p class="project-summary">Court Vision is an NBA analytics app that turns live player and team data into forecasts and leaderboards. I built the model, data pipeline, and role-based web app so people can explore the results in one place.</p>
-              <div class="project-links"><a href="https://courtvision.works/" target="_blank" rel="noreferrer">Visit site ↗</a><a href="https://github.com/CosmicVeil/Court-Vision" target="_blank" rel="noreferrer">View code ↗</a></div>
-            </div>
-            <div class="project-media project-media--court">
-              <a href="https://courtvision.works/" target="_blank" rel="noreferrer"><img src="assets/court-vision-radar.png" alt="Court Vision live AI radar showing predicted NBA player breakouts" /></a>
-              <a href="https://courtvision.works/" target="_blank" rel="noreferrer"><img src="assets/court-vision-leaderboard.png" alt="Court Vision leaderboard with player predictions" /></a>
-            </div>
-          </article>
+  body {
+    max-width: 38rem;
+    margin: 0;
+    padding: 3.5rem 1.5rem 3rem;
+  }
+  @media (min-width: 48rem) {
+    body { margin-left: 8vw; padding-top: 5rem; }
+  }
 
-          <article class="project" data-reveal>
-            <div class="project-number">02</div>
-            <div class="project-content">
-              <div class="project-label">AI + FINANCE / 2026—PRESENT</div>
-              <h3><a href="https://github.com/CosmicVeil/Atlas" target="_blank" rel="noreferrer">Atlas <span>↗</span></a></h3>
-              <p class="project-summary">Atlas is a market-research app that brings together live market data, news, and model-assisted analysis. I built its orchestration flow around LangGraph, Kafka, and a relational database.</p>
-              <div class="project-links"><a href="https://github.com/CosmicVeil/Atlas" target="_blank" rel="noreferrer">View code ↗</a></div>
-            </div>
-            <div class="project-media project-media--atlas">
-              <a href="https://github.com/CosmicVeil/Atlas" target="_blank" rel="noreferrer"><img src="assets/atlas-browser.png" alt="Atlas market browser with live stock data" /></a>
-              <a href="https://github.com/CosmicVeil/Atlas" target="_blank" rel="noreferrer"><img src="assets/atlas-analysis.png" alt="Atlas AI stock analysis recommendations" /></a>
-            </div>
-          </article>
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--muted);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+  a:hover { text-decoration-color: currentColor; }
+  :focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
 
-          <article class="project" data-reveal>
-            <div class="project-number">03</div>
-            <div class="project-content">
-              <div class="project-label">DESKTOP SOFTWARE / 2025—2026</div>
-              <h3><a href="https://github.com/CosmicVeil/FSPCodeMetrics-FinalUpdate" target="_blank" rel="noreferrer">Code Metrics <span>↗</span></a></h3>
-              <p class="project-summary">Code Metrics helps competitive programmers understand their performance, find useful problems, and build custom contests. I designed the desktop app around an ELO-style rating system and a DMOJ-powered contest engine.</p>
-              <div class="project-links"><a href="https://github.com/CosmicVeil/FSPCodeMetrics-FinalUpdate" target="_blank" rel="noreferrer">View code ↗</a></div>
-            </div>
-            <div class="project-media project-media--code">
-              <a href="https://github.com/CosmicVeil/FSPCodeMetrics-FinalUpdate" target="_blank" rel="noreferrer"><img src="assets/code-metrics-analytics.png" alt="Code Metrics analytics page showing topic strengths and rating" /></a>
-              <a href="https://github.com/CosmicVeil/FSPCodeMetrics-FinalUpdate" target="_blank" rel="noreferrer"><img src="assets/code-metrics-explore.png" alt="Code Metrics problem explorer with search and filters" /></a>
-            </div>
-          </article>
-        </div>
-      </section>
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .theme-toggle {
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    padding: 0.25rem 0;
+    cursor: pointer;
+  }
+  .theme-toggle:hover { color: var(--fg); }
 
-      <section class="proof section-shell" id="proof" aria-labelledby="proof-title">
-        <div class="section-heading" data-reveal>
-          <div><p class="eyebrow">02 / A FEW MILESTONES</p><h2 id="proof-title">A few milestones<br /><em>along the way.</em></h2></div>
-          <p>Contests gave me a place to stay curious, meet generous people, and keep returning to difficult problems.</p>
-        </div>
-        <div class="proof-grid">
-          <article class="proof-card proof-primary" data-reveal><p>CANADIAN SENIOR MATH CONTEST</p><strong>92<span>nd</span></strong><small>of 15,153 participants<br />Top 0.6% nationally · 2026</small></article>
-          <article class="proof-card" data-reveal><p>CANADIAN OPEN MATH CHALLENGE</p><strong>TOP 125</strong><small>Nationally ranked<br />Qualified for CMOQR · 2026</small></article>
-          <article class="proof-card" data-reveal><p>AMERICAN INVITATIONAL MATH EXAM</p><strong>TOP 5%</strong><small>AMC 12 qualification<br />AIME · 2026</small></article>
-          <article class="proof-card" data-reveal><p>COMPETITIVE PROGRAMMING</p><strong>1706</strong><small>Candidate Master<br />DMOJ · 2025</small></article>
-          <article class="proof-card proof-chess" data-reveal><p>COMPETITIVE CHESS</p><strong>2100</strong><small>Chess.com rating<br />99.8th percentile globally</small></article>
-          <article class="proof-card small-copy" data-reveal><p>ADDITIONAL HONOURS</p><strong>MORE SIGNAL</strong><small>Euclid Honour Roll · 1st local CTMC team · USACO Bronze → Silver · York Region coding Top 5</small></article>
-        </div>
-      </section>
+  .intro {
+    margin: 0.75rem 0 0;
+    color: var(--fg);
+  }
 
-      <section class="about section-shell" id="about" aria-labelledby="about-title">
-        <div class="about-grid">
-          <div data-reveal><p class="eyebrow">03 / OUTSIDE PROJECTS</p><h2 id="about-title">I like learning<br /><em>with people.</em></h2></div>
-          <div class="about-content" data-reveal>
-            <p class="large-copy">Math and coding contests gave me a reason to keep asking questions. Chess taught me patience. Teaching and club work reminded me that the people around a problem matter as much as the answer.</p>
-            <div class="timeline">
-              <article><p class="timeline-date">AUG 2024—PRESENT</p><div><h3>Academic Tutor · Kumon</h3><p>Teach mathematics and English to 50+ students weekly, adapting strategies to individual progress.</p></div></article>
-              <article><p class="timeline-date">FEB 2025—PRESENT</p><div><h3>Problem Setter &amp; Tester · TOPSOJ</h3><p>Designed and tested 150+ rigorous mathematical problems for 3,000+ active users.</p></div></article>
-              <article><p class="timeline-date">DEC 2022—JUN 2026</p><div><h3>President · Chess Club</h3><p>Grew a student community and organized an 8-school, 80+ participant tournament that raised $500 in sponsorships.</p></div></article>
-              <article><p class="timeline-date">SEP 2024—JUN 2026</p><div><h3>Executive · Math &amp; Coding Club</h3><p>Coached 200+ students for national mathematics and computing competitions.</p></div></article>
-            </div>
-          </div>
-        </div>
-      </section>
+  section { margin-top: 3rem; }
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  h3 {
+    margin: 1.5rem 0 0;
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+  }
 
-      <section class="contact section-shell" aria-labelledby="contact-title">
-        <p class="eyebrow">04 / GET IN TOUCH</p>
-        <h2 id="contact-title">I’d be glad<br />to <em>talk.</em></h2>
-        <div class="contact-row">
-          <a class="contact-email" href="mailto:mohan.dixit2008@email.com">mohan.dixit2008@email.com <span>↗</span></a>
-          <div class="social-links"><a href="https://linkedin.com/in/mohan-dixit-6396922b5/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="https://github.com/CosmicVeil" target="_blank" rel="noreferrer">GitHub ↗</a></div>
-        </div>
-      </section>
-    </main>
+  ul { list-style: none; margin: 0; padding: 0; }
 
-    <footer><span>© 2026 MOHAN DIXIT</span><span>Thanks for visiting.</span><a href="#top">BACK TO TOP ↑</a></footer>
-    <script src="script.js"></script>
-  </body>
+  /* Contests: the one bold element on the page. */
+  .results li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .results li:first-child { border-top: 1px solid var(--rule); margin-top: 0.4rem; }
+  .results .event { flex: 1; min-width: 0; }
+  .results .score {
+    text-align: right;
+    max-width: 50%;
+  }
+  .results .figure {
+    display: block;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.05;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .results .note {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .entries li { margin-top: 0.9rem; }
+  .entries li:first-child { margin-top: 0; }
+  .entries .what { display: block; }
+  .entries .detail { display: block; color: var(--muted); }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+  }
+  footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+  }
+  footer a { color: var(--fg); }
+
+  @media (max-width: 30rem) {
+    html { font-size: 1.0625rem; }
+    body { padding-top: 2.5rem; }
+    .results .figure { font-size: 1.875rem; }
+    .intro br { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mohan Dixit</h1>
+  <button class="theme-toggle" type="button" id="theme-toggle">Dark</button>
+</header>
+
+<p class="intro">I study computer science at the University of Waterloo. <br>
+Most of my time goes to competition math, with some programming and chess.</p>
+
+<main>
+  <section aria-labelledby="contests">
+    <h2 id="contests">Contests</h2>
+
+    <h3>Mathematics</h3>
+    <ul class="results">
+      <li>
+        <span class="event">Canadian Senior Mathematics Contest, 2026</span>
+        <span class="score"><span class="figure">92nd</span><span class="note">of 15,153, top 0.6%</span></span>
+      </li>
+      <li>
+        <span class="event">Canadian Open Mathematics Challenge, 2026</span>
+        <span class="score"><span class="figure">Top 125</span><span class="note">nationally, qualified for CMOQR</span></span>
+      </li>
+      <li>
+        <span class="event">AMC 12, 2026</span>
+        <span class="score"><span class="figure">Top 5%</span><span class="note">qualified for AIME</span></span>
+      </li>
+    </ul>
+
+    <h3>Programming</h3>
+    <ul class="results">
+      <li>
+        <span class="event">DMOJ</span>
+        <span class="score"><span class="figure">1706</span><span class="note">Candidate Master</span></span>
+      </li>
+    </ul>
+
+    <h3>Chess</h3>
+    <ul class="results">
+      <li>
+        <span class="event">Chess.com</span>
+        <span class="score"><span class="figure">2100</span><span class="note">99.8th percentile</span></span>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="community">
+    <h2 id="community">Community</h2>
+    <ul class="entries">
+      <li>
+        <span class="what">Problem setter and tester, TOPSOJ</span>
+        <span class="detail">Wrote and tested 150+ problems in LaTeX for a judge with 3,000+ users.</span>
+      </li>
+      <li>
+        <span class="what">President, Bur Oak Chess Club</span>
+        <span class="detail">Ran the York Region Chess Championship: 8 schools, 80+ players, $500 raised.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="experience">
+    <h2 id="experience">Experience</h2>
+    <ul class="entries">
+      <li>
+        <span class="what">Software subteam, UW Orbital</span>
+        <span class="detail">Student satellite design team at the University of Waterloo.</span>
+      </li>
+      <li>
+        <span class="what">Open source, <a href="https://github.com/corentings/chess">corentings/chess</a></span>
+        <span class="detail">Contributor to a chess library for Go.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="projects">
+    <h2 id="projects">Projects</h2>
+    <ul class="entries">
+      <li>
+        <span class="what">Chess Analytics Engine</span>
+        <span class="detail">Scores complete chess games for signs of engine assistance with PyTorch and XGBoost models.</span>
+      </li>
+      <li>
+        <span class="what">Court Vision</span>
+        <span class="detail">NBA analytics app that turns player and team data into forecasts and leaderboards.</span>
+      </li>
+      <li>
+        <span class="what">Atlas</span>
+        <span class="detail">Market research app combining live market data, news and model-assisted analysis.</span>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <ul>
+    <li><a href="mailto:mohan.dixit2008@gmail.com">mohan.dixit2008@gmail.com</a></li>
+    <li><a href="https://github.com/CosmicVeil">GitHub</a></li>
+    <li><a href="https://www.linkedin.com/in/mohan-dixit-6396922b5/">LinkedIn</a></li>
+  </ul>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var button = document.getElementById("theme-toggle");
+    var system = matchMedia("(prefers-color-scheme: dark)");
+
+    function render() {
+      var dark = root.dataset.theme === "dark";
+      // The label names the theme you'd switch to.
+      button.textContent = dark ? "Light" : "Dark";
+      button.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+    }
+
+    button.addEventListener("click", function () {
+      var next = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem("theme", next); } catch (e) {}
+      render();
+    });
+
+    // Keep following the system until the visitor makes a choice.
+    system.addEventListener("change", function (e) {
+      var saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (err) {}
+      if (!saved) { root.dataset.theme = e.matches ? "dark" : "light"; render(); }
+    });
+
+    render();
+  })();
+</script>
+</body>
 </html>

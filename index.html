@@ -1,177 +1,35 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mohan Dixit</title>
 <meta name="description" content="Mohan Dixit studies computer science at the University of Waterloo and does competition math, programming and chess.">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark light">
 <script>
-  // Runs before first paint so the page never flashes the wrong theme.
-  // A saved choice wins; otherwise follow the system setting.
-  (function () {
-    var saved = null;
-    try { saved = localStorage.getItem("theme"); } catch (e) {}
-    var dark = saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
-  })();
+  // Dark unless the visitor chose light before. Runs before first paint.
+  try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
-<style>
-  :root {
-    --bg: #fff;
-    --fg: #000;
-    --muted: #666;
-    --rule: #ddd;
-  }
-  [data-theme="dark"] {
-    --bg: #000;
-    --fg: #fff;
-    --muted: #999;
-    --rule: #333;
-  }
-
-  * { box-sizing: border-box; }
-
-  html {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: "STIX Two Text", "STIX Two", Georgia, serif;
-    font-size: 1.125rem;
-    line-height: 1.55;
-    -webkit-text-size-adjust: 100%;
-  }
-
-  body {
-    max-width: 38rem;
-    margin: 0;
-    padding: 3.5rem 1.5rem 3rem;
-  }
-  @media (min-width: 48rem) {
-    body { margin-left: 8vw; padding-top: 5rem; }
-  }
-
-  a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: var(--muted);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
-  }
-  a:hover { text-decoration-color: currentColor; }
-  :focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
-
-  header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  h1 {
-    margin: 0;
-    font-size: 1.75rem;
-    font-weight: 600;
-    line-height: 1.2;
-  }
-  .theme-toggle {
-    font: inherit;
-    font-size: 0.875rem;
-    color: var(--muted);
-    background: none;
-    border: 0;
-    padding: 0.25rem 0;
-    cursor: pointer;
-  }
-  .theme-toggle:hover { color: var(--fg); }
-
-  .intro {
-    margin: 0.75rem 0 0;
-    color: var(--fg);
-  }
-
-  section { margin-top: 3rem; }
-  h2 {
-    margin: 0 0 0.75rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-  }
-  h3 {
-    margin: 1.5rem 0 0;
-    font-size: 1rem;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--muted);
-  }
-
-  ul { list-style: none; margin: 0; padding: 0; }
-
-  /* Contests: the one bold element on the page. */
-  .results li {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .results li:first-child { border-top: 1px solid var(--rule); margin-top: 0.4rem; }
-  .results .event { flex: 1; min-width: 0; }
-  .results .score {
-    text-align: right;
-    max-width: 50%;
-  }
-  .results .figure {
-    display: block;
-    font-size: 2.25rem;
-    font-weight: 700;
-    line-height: 1.05;
-    font-variant-numeric: lining-nums tabular-nums;
-  }
-  .results .note {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  .entries li { margin-top: 0.9rem; }
-  .entries li:first-child { margin-top: 0; }
-  .entries .what { display: block; }
-  .entries .detail { display: block; color: var(--muted); }
-
-  footer {
-    margin-top: 4rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--rule);
-    color: var(--muted);
-  }
-  footer ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.5rem;
-  }
-  footer a { color: var(--fg); }
-
-  @media (max-width: 30rem) {
-    html { font-size: 1.0625rem; }
-    body { padding-top: 2.5rem; }
-    .results .figure { font-size: 1.875rem; }
-    .intro br { display: none; }
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
+<header class="site-header reveal">
   <h1>Mohan Dixit</h1>
-  <button class="theme-toggle" type="button" id="theme-toggle">Dark</button>
+  <nav class="site-nav" aria-label="Site">
+    <a href="#projects">Projects</a>
+    <a href="assets/mohan-dixit-resume.pdf">Resume</a>
+    <button class="theme-toggle" type="button" id="theme-toggle">Light</button>
+  </nav>
 </header>
 
-<p class="intro">I study computer science at the University of Waterloo. <br>
+<p class="intro reveal" style="--i:1">I study computer science at the University of Waterloo. <br>
 Most of my time goes to competition math, with some programming and chess.</p>
 
 <main>
-  <section aria-labelledby="contests">
+  <section class="reveal" style="--i:2" aria-labelledby="contests">
     <h2 id="contests">Contests</h2>
 
     <h3>Mathematics</h3>
@@ -207,7 +65,7 @@ Most of my time goes to competition math, with some programming and chess.</p>
     </ul>
   </section>
 
-  <section aria-labelledby="community">
+  <section class="reveal" style="--i:3" aria-labelledby="community">
     <h2 id="community">Community</h2>
     <ul class="entries">
       <li>
@@ -221,7 +79,7 @@ Most of my time goes to competition math, with some programming and chess.</p>
     </ul>
   </section>
 
-  <section aria-labelledby="experience">
+  <section class="reveal" style="--i:4" aria-labelledby="experience">
     <h2 id="experience">Experience</h2>
     <ul class="entries">
       <li>
@@ -235,26 +93,29 @@ Most of my time goes to competition math, with some programming and chess.</p>
     </ul>
   </section>
 
-  <section aria-labelledby="projects">
+  <section class="reveal" style="--i:5" aria-labelledby="projects">
     <h2 id="projects">Projects</h2>
     <ul class="entries">
       <li>
-        <span class="what">Chess Analytics Engine</span>
-        <span class="detail">Scores complete chess games for signs of engine assistance with PyTorch and XGBoost models.</span>
+        <span class="what"><a href="projects/chess-analytics-engine.html">Chess Analytics Engine</a></span>
+        <span class="detail">Scores complete chess games for signs of engine assistance with two independent models, and streams each result to the browser as it arrives.</span>
+        <span class="stack">Go, Python, PyTorch, XGBoost, Kafka, PostgreSQL</span>
       </li>
       <li>
-        <span class="what">Court Vision</span>
-        <span class="detail">NBA analytics app that turns player and team data into forecasts and leaderboards.</span>
+        <span class="what"><a href="projects/court-vision.html">Court Vision</a><span class="when">2025 to now</span></span>
+        <span class="detail">NBA analytics app that forecasts player performance with an XGBoost model, refreshed daily, next to live games and season stats.</span>
+        <span class="stack">React, Flask, PostgreSQL, XGBoost, GitHub Actions</span>
       </li>
       <li>
-        <span class="what">Atlas</span>
-        <span class="detail">Market research app combining live market data, news and model-assisted analysis.</span>
+        <span class="what"><a href="projects/atlas.html">Atlas</a><span class="when">2026 to now</span></span>
+        <span class="detail">Market research app that turns a live news stream into per-stock warnings and predictions, alongside fundamentals and model-written analysis.</span>
+        <span class="stack">React, Flask, Kafka, MongoDB, LLM APIs</span>
       </li>
     </ul>
   </section>
 </main>
 
-<footer>
+<footer class="reveal" style="--i:6">
   <ul>
     <li><a href="mailto:mohan.dixit2008@gmail.com">mohan.dixit2008@gmail.com</a></li>
     <li><a href="https://github.com/CosmicVeil">GitHub</a></li>
@@ -263,35 +124,6 @@ Most of my time goes to competition math, with some programming and chess.</p>
   </ul>
 </footer>
 
-<script>
-  (function () {
-    var root = document.documentElement;
-    var button = document.getElementById("theme-toggle");
-    var system = matchMedia("(prefers-color-scheme: dark)");
-
-    function render() {
-      var dark = root.dataset.theme === "dark";
-      // The label names the theme you'd switch to.
-      button.textContent = dark ? "Light" : "Dark";
-      button.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
-    }
-
-    button.addEventListener("click", function () {
-      var next = root.dataset.theme === "dark" ? "light" : "dark";
-      root.dataset.theme = next;
-      try { localStorage.setItem("theme", next); } catch (e) {}
-      render();
-    });
-
-    // Keep following the system until the visitor makes a choice.
-    system.addEventListener("change", function (e) {
-      var saved = null;
-      try { saved = localStorage.getItem("theme"); } catch (err) {}
-      if (!saved) { root.dataset.theme = e.matches ? "dark" : "light"; render(); }
-    });
-
-    render();
-  })();
-</script>
+<script src="script.js"></script>
 </body>
 </html>

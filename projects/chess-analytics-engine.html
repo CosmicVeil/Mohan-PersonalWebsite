@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chess Analytics Engine, Mohan Dixit</title>
+<meta name="description" content="A streaming pipeline that scores complete chess games for signs of engine assistance with PyTorch and XGBoost.">
+<meta name="color-scheme" content="dark light">
+<script>
+  try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header reveal">
+  <a class="home-link" href="../">Mohan Dixit</a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../#projects" aria-current="page">Projects</a>
+    <a href="../assets/mohan-dixit-resume.pdf">Resume</a>
+    <button class="theme-toggle" type="button" id="theme-toggle">Light</button>
+  </nav>
+</header>
+
+<main>
+  <h1 class="page-title reveal" style="--i:1">Chess Analytics Engine</h1>
+  <p class="lede reveal" style="--i:1">Upload a batch of games and get two independent model scores per game for signs of engine assistance, streamed to the browser one game at a time as each finishes.</p>
+
+  <dl class="meta reveal" style="--i:2">
+    <dt>Built with</dt><dd>Go, Python, PyTorch, XGBoost, Kafka (Redpanda), PostgreSQL, Flask, Docker</dd>
+    <dt>Code</dt><dd><a href="https://github.com/CosmicVeil/ChessAnalyticsEngine">CosmicVeil/ChessAnalyticsEngine</a></dd>
+  </dl>
+
+  <section class="reveal" style="--i:3">
+    <h2>Overview</h2>
+    <p>Each finished game becomes one feature vector. A PyTorch network and an XGBoost model score that vector in separate processes, and the two scores are joined into one result. Showing both side by side makes disagreement visible: a game where the models disagree deserves a closer look, not a verdict.</p>
+    <p>The scores run from zero to one, but they are not calibrated probabilities, and the app says so. They flag games for review; they do not prove cheating.</p>
+  </section>
+
+  <section class="reveal" style="--i:4">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li>Flask accepts a PGN upload or paste, spools it to private disk storage rather than holding it in memory, and records a job in PostgreSQL.</li>
+      <li>An ingestion worker publishes every move to a <em>chess-moves</em> topic on Kafka.</li>
+      <li>A Go service extracts per-move features, and an aggregation stage turns them into one row per game: the mean, standard deviation, minimum, maximum and last value of every feature, plus the move count.</li>
+      <li>The PyTorch and XGBoost workers each score the game. Neither imports the other, and Flask imports neither.</li>
+      <li>A result worker joins the two scores, stores them, and writes an ordered event that the browser receives over Server-Sent Events.</li>
+    </ol>
+  </section>
+
+  <section class="reveal" style="--i:5">
+    <h2>Decisions worth explaining</h2>
+    <div class="decision">
+      <h3>The same maths in training and in production</h3>
+      <p>The live workers originally did not normalise features the way training did, so the models saw numbers on a different scale from the ones they learned on. This is called training/serving skew. Now training saves the exact XGBoost min/max values (from training rows only) to a file the live worker checks and reuses, and the PyTorch worker repeats the same per-game L2 normalisation.</p>
+    </div>
+    <div class="decision">
+      <h3>Split by game, not by move</h3>
+      <p>Moves from one game are strongly correlated. If some moves of a game land in training and others in testing, the test score looks better than the model really is. Grouping by game before splitting keeps every held-out game fully unseen.</p>
+    </div>
+    <div class="decision">
+      <h3>PostgreSQL instead of SQLite</h3>
+      <p>Several workers claim jobs at once. PostgreSQL's <em>FOR UPDATE SKIP LOCKED</em> lets each worker grab a different job without blocking the others, and the score updates and browser events commit in the same transaction. SQLite allows only one writer at a time and is awkward to share between machines.</p>
+    </div>
+    <div class="decision">
+      <h3>Streams that survive a refresh</h3>
+      <p>Every event the browser sees is a numbered row in the database. After a reload, the page fetches the current snapshot and then resumes the stream after the last event it saw, so a big job neither replays its whole history nor loses updates.</p>
+    </div>
+  </section>
+
+  <nav class="pager reveal" style="--i:6" aria-label="More projects">
+    <a class="next" href="court-vision.html"><span>Next project</span>Court Vision</a>
+  </nav>
+</main>
+
+<footer class="reveal" style="--i:7">
+  <ul>
+    <li><a href="mailto:mohan.dixit2008@gmail.com">mohan.dixit2008@gmail.com</a></li>
+    <li><a href="https://github.com/CosmicVeil">GitHub</a></li>
+    <li><a href="../assets/mohan-dixit-resume.pdf">Resume</a></li>
+    <li><a href="https://www.linkedin.com/in/mohan-dixit-6396922b5/">LinkedIn</a></li>
+  </ul>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

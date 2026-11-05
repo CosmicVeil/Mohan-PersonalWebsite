@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas, Mohan Dixit</title>
+<meta name="description" content="A market research app that turns a live news stream into per-stock warnings and predictions.">
+<meta name="color-scheme" content="dark light">
+<script>
+  try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header reveal">
+  <a class="home-link" href="../">Mohan Dixit</a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../#projects" aria-current="page">Projects</a>
+    <a href="../assets/mohan-dixit-resume.pdf">Resume</a>
+    <button class="theme-toggle" type="button" id="theme-toggle">Light</button>
+  </nav>
+</header>
+
+<main>
+  <h1 class="page-title reveal" style="--i:1">Atlas</h1>
+  <p class="lede reveal" style="--i:1">A market research app that reads a live stream of financial news, turns it into warnings and predictions for individual stocks, and shows them next to fundamentals and model-written analysis.</p>
+
+  <dl class="meta reveal" style="--i:2">
+    <dt>When</dt><dd>2026 to now</dd>
+    <dt>Built with</dt><dd>React, Vite, Flask, Kafka (Redpanda), MongoDB, OpenAI, Anthropic and NVIDIA APIs, Alpha Vantage, Docker</dd>
+    <dt>Code</dt><dd><a href="https://github.com/CosmicVeil/Atlas">CosmicVeil/Atlas</a></dd>
+  </dl>
+
+  <section class="reveal" style="--i:3">
+    <h2>Overview</h2>
+    <p>Atlas brings together the three things you check before looking at a stock: what the company's numbers say, what the news says, and what a careful reader would conclude from both. A browser lists stocks with live data; each one opens a page with fundamentals, recent warnings and an AI-written analysis.</p>
+  </section>
+
+  <figure class="reveal" style="--i:4">
+    <img src="../assets/atlas-browser.png" width="2586" height="1630" alt="Atlas market browser listing stocks with live prices">
+    <figcaption>The market browser.</figcaption>
+  </figure>
+
+  <section class="reveal" style="--i:5">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li>A <em>news streamer</em> fetches new articles and publishes them to Kafka.</li>
+      <li>A <em>warning streamer</em> has a language model read each article and turn it into warnings for the specific stocks it affects.</li>
+      <li>A <em>prediction streamer</em> combines new warnings with fundamentals and a live quote, has the model update that stock's outlook and target price, and stores one prediction per stock in MongoDB.</li>
+      <li>The Flask API reads the warnings and predictions and serves them with fundamentals and the written analysis.</li>
+      <li>The React frontend shows it all; a single command, <em>npx github:CosmicVeil/Atlas</em>, clones, installs and starts the whole thing.</li>
+    </ol>
+  </section>
+
+  <section class="reveal" style="--i:6">
+    <h2>Decisions worth explaining</h2>
+    <div class="decision">
+      <h3>Three stages joined by a message broker</h3>
+      <p>Each stage only reads from one topic and writes to the next, so a slow or crashed stage doesn't take the others down, and messages wait in Kafka until it recovers. A single script doing all three would be simpler, but one failure would stop everything.</p>
+    </div>
+    <div class="decision">
+      <h3>The model judges; the code does the arithmetic</h3>
+      <p>The language model sets the outlook and target price, but the potential return is calculated in code. Language models are unreliable at arithmetic, and a number computed in code can be tested. If a model call fails, nothing is written, so a made-up fallback can never pass for a real prediction.</p>
+    </div>
+    <div class="decision">
+      <h3>Works without any API keys</h3>
+      <p>Without keys, Atlas falls back to local fundamentals and simulated analysis instead of failing. Anyone can try it in one command, and real providers switch on when keys are added.</p>
+    </div>
+    <div class="decision">
+      <h3>Tests that never touch the network</h3>
+      <p>The backend tests mock the news source, the model provider, Kafka and MongoDB, so they run offline, quickly and the same way every time.</p>
+    </div>
+  </section>
+
+  <figure class="reveal" style="--i:7">
+    <img src="../assets/atlas-analysis.png" width="2884" height="1936" loading="lazy" alt="Atlas stock analysis page with AI recommendations">
+    <figcaption>A stock's analysis page.</figcaption>
+  </figure>
+
+  <nav class="pager reveal" style="--i:8" aria-label="More projects">
+    <a href="court-vision.html"><span>Previous project</span>Court Vision</a>
+  </nav>
+</main>
+
+<footer class="reveal" style="--i:9">
+  <ul>
+    <li><a href="mailto:mohan.dixit2008@gmail.com">mohan.dixit2008@gmail.com</a></li>
+    <li><a href="https://github.com/CosmicVeil">GitHub</a></li>
+    <li><a href="../assets/mohan-dixit-resume.pdf">Resume</a></li>
+    <li><a href="https://www.linkedin.com/in/mohan-dixit-6396922b5/">LinkedIn</a></li>
+  </ul>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

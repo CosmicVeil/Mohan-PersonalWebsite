@@ -86,6 +86,8 @@ h1 {
 .page-title { margin-top: 3rem; font-size: 2rem; }
 
 .intro { margin: 0.75rem 0 0; }
+.seeking { margin: 0.75rem 0 0; color: var(--muted); }
+.seeking a { color: var(--fg); }
 .lede { margin: 0.75rem 0 0; font-size: 1.1875rem; }
 
 section { margin-top: 3rem; }

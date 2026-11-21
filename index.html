@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mohan Dixit</title>
-<meta name="description" content="Mohan Dixit studies computer science at the University of Waterloo and does competition math, programming and chess.">
+<meta name="description" content="Mohan Dixit studies computer science at the University of Waterloo, class of 2031.">
 <meta name="color-scheme" content="dark light">
 <script>
   // Dark unless the visitor chose light before. Runs before first paint.
@@ -25,12 +25,37 @@
   </nav>
 </header>
 
-<p class="intro reveal" style="--i:1">I study computer science at the University of Waterloo. <br>
-Most of my time goes to competition math, with some programming and chess.</p>
-<p class="seeking reveal" style="--i:1">Currently looking for software and quant internships. <a href="mailto:mohan.dixit2008@gmail.com">Get in touch</a>.</p>
+<p class="intro reveal" style="--i:1">CS @ University of Waterloo, graduating 2031.</p>
+<p class="seeking reveal" style="--i:1">Currently looking for software engineering internships. <a href="mailto:mohan.dixit2008@gmail.com">Get in touch</a>.</p>
 
 <main>
-  <section class="reveal" style="--i:2" aria-labelledby="contests">
+  <section class="reveal" style="--i:2" aria-labelledby="projects">
+    <h2 id="projects">Projects</h2>
+    <ul class="entries">
+      <li>
+        <span class="what"><a href="projects/theorem-reranker.html">Theorem Reranker</a><span class="when">2026</span></span>
+        <span class="detail">Search 136,608 Mathlib theorems by describing one in English or LaTeX. A fine-tuned embedding model and a cross-encoder reranker find the right theorem first 79.5% of the time, against 56.3% for the best baseline.</span>
+        <span class="stack">Python, PyTorch, sentence-transformers, FAISS, Gradio</span>
+      </li>
+      <li>
+        <span class="what"><a href="projects/chess-analytics-engine.html">Chess Analytics Engine</a></span>
+        <span class="detail">Scores complete chess games for signs of engine assistance with two independent models, and streams each result to the browser as it arrives.</span>
+        <span class="stack">Go, Python, PyTorch, XGBoost, Kafka, PostgreSQL</span>
+      </li>
+      <li>
+        <span class="what"><a href="projects/court-vision.html">Court Vision</a><span class="when">2025 to now</span></span>
+        <span class="detail">NBA analytics app that forecasts player performance with an XGBoost model, refreshed daily, next to live games and season stats.</span>
+        <span class="stack">React, Flask, PostgreSQL, XGBoost, GitHub Actions</span>
+      </li>
+      <li>
+        <span class="what"><a href="projects/atlas.html">Atlas</a><span class="when">2026 to now</span></span>
+        <span class="detail">Market research app that turns a live news stream into per-stock warnings and predictions, alongside fundamentals and model-written analysis.</span>
+        <span class="stack">React, Flask, Kafka, MongoDB, LLM APIs</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="reveal" style="--i:3" aria-labelledby="contests">
     <h2 id="contests">Contests</h2>
 
     <h3>Mathematics</h3>
@@ -66,7 +91,7 @@ Most of my time goes to competition math, with some programming and chess.</p>
     </ul>
   </section>
 
-  <section class="reveal" style="--i:3" aria-labelledby="community">
+  <section class="reveal" style="--i:4" aria-labelledby="community">
     <h2 id="community">Community</h2>
     <ul class="entries">
       <li>
@@ -80,7 +105,7 @@ Most of my time goes to competition math, with some programming and chess.</p>
     </ul>
   </section>
 
-  <section class="reveal" style="--i:4" aria-labelledby="experience">
+  <section class="reveal" style="--i:5" aria-labelledby="experience">
     <h2 id="experience">Experience</h2>
     <ul class="entries">
       <li>
@@ -94,26 +119,6 @@ Most of my time goes to competition math, with some programming and chess.</p>
     </ul>
   </section>
 
-  <section class="reveal" style="--i:5" aria-labelledby="projects">
-    <h2 id="projects">Projects</h2>
-    <ul class="entries">
-      <li>
-        <span class="what"><a href="projects/chess-analytics-engine.html">Chess Analytics Engine</a></span>
-        <span class="detail">Scores complete chess games for signs of engine assistance with two independent models, and streams each result to the browser as it arrives.</span>
-        <span class="stack">Go, Python, PyTorch, XGBoost, Kafka, PostgreSQL</span>
-      </li>
-      <li>
-        <span class="what"><a href="projects/court-vision.html">Court Vision</a><span class="when">2025 to now</span></span>
-        <span class="detail">NBA analytics app that forecasts player performance with an XGBoost model, refreshed daily, next to live games and season stats.</span>
-        <span class="stack">React, Flask, PostgreSQL, XGBoost, GitHub Actions</span>
-      </li>
-      <li>
-        <span class="what"><a href="projects/atlas.html">Atlas</a><span class="when">2026 to now</span></span>
-        <span class="detail">Market research app that turns a live news stream into per-stock warnings and predictions, alongside fundamentals and model-written analysis.</span>
-        <span class="stack">React, Flask, Kafka, MongoDB, LLM APIs</span>
-      </li>
-    </ul>
-  </section>
 </main>
 
 <footer class="reveal" style="--i:6">

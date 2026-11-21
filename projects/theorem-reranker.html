@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theorem Reranker, Mohan Dixit</title>
+<meta name="description" content="Semantic search over 136,608 Mathlib theorems with a fine-tuned embedding model and a cross-encoder reranker.">
+<meta name="color-scheme" content="dark light">
+<script>
+  try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="site-header reveal">
+  <a class="home-link" href="../">Mohan Dixit</a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../#projects" aria-current="page">Projects</a>
+    <a href="../assets/mohan-dixit-resume.pdf">Resume</a>
+    <button class="theme-toggle" type="button" id="theme-toggle">Light</button>
+  </nav>
+</header>
+
+<main>
+  <h1 class="page-title reveal" style="--i:1">Theorem Reranker</h1>
+  <p class="lede reveal" style="--i:1">Describe a theorem in English, LaTeX or a mix of both, and get back the matching declaration from Mathlib, Lean's library of formalised mathematics.</p>
+
+  <dl class="meta reveal" style="--i:2">
+    <dt>When</dt><dd>2026</dd>
+    <dt>Built with</dt><dd>Python, PyTorch, sentence-transformers, FAISS, Gradio, Kaggle GPUs, Weights &amp; Biases</dd>
+    <dt>Code</dt><dd><a href="https://github.com/CosmicVeil/rag-theorem-evaluation-project">CosmicVeil/rag-theorem-evaluation-project</a></dd>
+  </dl>
+
+  <section class="reveal" style="--i:3">
+    <h2>Overview</h2>
+    <p>Mathlib has over a hundred thousand theorems, and finding the one you need usually means already knowing its name. This project searches all 136,608 of them from a plain description. A fine-tuned embedding model narrows the corpus to 100 candidates, then a cross-encoder reads the top 20 closely and puts them in order.</p>
+    <p>On a 151-query benchmark I wrote, the right theorem comes first 79.5% of the time and appears in the top 10 for 94.7% of queries. The best off-the-shelf baseline gets 56.3% first.</p>
+  </section>
+
+  <section class="reveal" style="--i:4">
+    <h2>Results</h2>
+    <ul class="results">
+      <li>
+        <span class="event">Embedding model + reranker</span>
+        <span class="score"><span class="figure">79.5%</span><span class="note">right theorem ranked first</span></span>
+      </li>
+      <li>
+        <span class="event">Fine-tuned embedding model alone</span>
+        <span class="score"><span class="figure">59.6%</span><span class="note">ranked first</span></span>
+      </li>
+      <li>
+        <span class="event">Best baseline (BM25 + embeddings, fused)</span>
+        <span class="score"><span class="figure">56.3%</span><span class="note">ranked first</span></span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="reveal" style="--i:5">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li>Each theorem is indexed with its Lean statement, docstring and an informal English statement from the FrenzyMath dataset.</li>
+      <li>A bge-base embedding model, fine-tuned with contrastive learning on 74,833 pairs, embeds the query and scans every theorem vector for the 100 closest.</li>
+      <li>A cross-encoder reranker, fine-tuned to notice one-symbol differences, reads the query next to each of the top 20 and re-sorts them.</li>
+      <li>A Gradio app serves both stages, with a switch to compare against the first stage alone.</li>
+    </ol>
+  </section>
+
+  <section class="reveal" style="--i:6">
+    <h2>Decisions worth explaining</h2>
+    <div class="decision">
+      <h3>A benchmark built to catch near misses</h3>
+      <p>A third of the 151 queries are traps: each comes with near-miss theorems such as the converse, the strict version of an inequality, or the same statement without a hypothesis. The evaluation reports how often a near miss is ranked above the real answer, which a plain accuracy number would hide.</p>
+    </div>
+    <div class="decision">
+      <h3>Checking the data before trusting it</h3>
+      <p>The informal statements are written by a language model. A spot check of 50 found 12 subtly wrong, mostly missing a hypothesis, so the benchmark queries are written from the Lean statements, which are exact. Every theorem in the benchmark is held out of training.</p>
+    </div>
+    <div class="decision">
+      <h3>Why there are two stages</h3>
+      <p>I first tried teaching the embedding model to tell a theorem from its one-symbol edit. It learned to (97% accuracy on held-out pairs), but accuracy on the real benchmark dropped sharply: pushing near-identical theorems apart distorted the space every query shares. So that job moved to a reranker that reads the query and a candidate together, and only has to do it for 20 candidates.</p>
+    </div>
+    <div class="decision">
+      <h3>Measuring the cost</h3>
+      <p>On two CPU threads, the first stage answers in about 60 ms and the reranker brings the median to about 1.1 seconds. Looking deeper than the top 20 didn't help: more candidates just meant more near twins to get wrong.</p>
+    </div>
+  </section>
+
+  <nav class="pager reveal" style="--i:7" aria-label="More projects">
+    <a class="next" href="chess-analytics-engine.html"><span>Next project</span>Chess Analytics Engine</a>
+  </nav>
+</main>
+
+<footer class="reveal" style="--i:8">
+  <ul>
+    <li><a href="mailto:mohan.dixit2008@gmail.com">mohan.dixit2008@gmail.com</a></li>
+    <li><a href="https://github.com/CosmicVeil">GitHub</a></li>
+    <li><a href="../assets/mohan-dixit-resume.pdf">Resume</a></li>
+    <li><a href="https://www.linkedin.com/in/mohan-dixit-6396922b5/">LinkedIn</a></li>
+  </ul>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

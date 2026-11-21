@@ -21,3 +21,23 @@
 
   render();
 })();
+
+// "Get in touch": a mailto link only works when the visitor has a mail app
+// set up, and does nothing otherwise. So the click also copies the address
+// and shows it, which works either way. The mailto still opens if it can.
+(function () {
+  document.querySelectorAll("[data-copy-email]").forEach(function (link) {
+    var email = link.getAttribute("href").replace(/^mailto:/, "");
+    link.addEventListener("click", function () {
+      var shown = function (text) { link.textContent = text; };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(
+          function () { shown("Copied " + email); },
+          function () { shown(email); }
+        );
+      } else {
+        shown(email);
+      }
+    });
+  });
+})();

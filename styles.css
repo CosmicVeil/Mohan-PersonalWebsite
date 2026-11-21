@@ -37,11 +37,11 @@ html {
 
 body {
   max-width: 38rem;
-  margin: 0;
+  margin: 0 auto;
   padding: var(--line) 1.5rem var(--double);
 }
 @media (min-width: 48rem) {
-  body { margin-left: 8vw; padding-top: var(--double); }
+  body { padding-top: var(--double); }
 }
 
 /* Reset vertical margins; spacing below is set deliberately, one rule per gap. */

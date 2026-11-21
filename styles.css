@@ -113,7 +113,7 @@ h1 ~ .icon-link svg { width: 1.2rem; height: 1.2rem; }
   font-size: 0.9375rem;
 }
 .site-nav a { color: var(--muted); text-decoration: none; }
-.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--fg); }
+.site-nav a:hover { color: var(--fg); }
 .theme-toggle {
   font: inherit;
   color: var(--muted);

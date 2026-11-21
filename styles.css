@@ -136,7 +136,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .entries > li:first-child { margin-top: 0; }
 .entries .what { display: block; }
 .entries .detail { display: block; color: var(--muted); }
-.entries .stack { display: block; font-size: 0.875rem; color: var(--muted); margin-top: 0.15rem; }
+.entries .stack { display: block; font-size: 0.875rem; color: var(--muted); margin-top: 0.15rem; font-style: italic; }
 .entries .when { color: var(--muted); font-size: 0.875rem; margin-left: 0.4rem; }
 
 /* Project pages */
@@ -152,6 +152,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 }
 .meta dt { color: var(--muted); }
 .meta dd { margin: 0; }
+.meta dd.stack { font-style: italic; }
 
 .steps { counter-reset: step; }
 .steps li {

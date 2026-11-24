@@ -5,10 +5,16 @@
   --muted: #999;
   --rule: #2b2b2b;
 
+  /* Two faces with separate jobs. The serif carries anything you read
+     as prose; the grotesque carries names, headings, numbers and the
+     small interface text around them. */
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --sans: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+
   /* Vertical rhythm. Every vertical gap is a fraction or multiple of one
      line of body text (line-height 1.6 x root size), so spacing and text
      share one beat. In rem, so it scales down with the phone font size. */
-  --line: 1.6rem;
+  --line: 1.65rem;
   --quarter: calc(var(--line) / 4);  /* inside one item */
   --half: calc(var(--line) / 2);     /* heading to its content, list rows */
   --double: calc(var(--line) * 2);   /* page title, figures */
@@ -28,9 +34,10 @@
 html {
   background: var(--bg);
   color: var(--fg);
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  font-family: var(--serif);
+  font-size: 1.1875rem;
+  font-optical-sizing: auto;
+  line-height: 1.65;
   -webkit-text-size-adjust: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -63,6 +70,12 @@ img { max-width: 100%; height: auto; display: block; }
 p, li, dd, figcaption { text-wrap: pretty; }
 h1, h2, .page-title, .lede { text-wrap: balance; }
 
+/* Interface text: header, labels, figures, footer. */
+.site-header, h1, h2, .results .figure, .results .note, .entries .what,
+.entries .when, .meta, .pager, footer, figcaption, .icon-link[data-note]::after {
+  font-family: var(--sans);
+}
+
 /* Header and navigation */
 .site-header {
   display: flex;
@@ -78,7 +91,9 @@ h1, h2, .page-title, .lede { text-wrap: balance; }
 }
 .name > :first-child { margin-right: 0.4rem; }
 .home-link {
-  font-weight: 600;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   text-decoration: none;
 }
 .icon-link {
@@ -110,7 +125,7 @@ h1 ~ .icon-link svg { width: 1.2rem; height: 1.2rem; }
   display: flex;
   align-items: baseline;
   gap: var(--gutter);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
 }
 .site-nav a { color: var(--muted); text-decoration: none; }
 .site-nav a:hover { color: var(--fg); }
@@ -126,28 +141,30 @@ h1 ~ .icon-link svg { width: 1.2rem; height: 1.2rem; }
 .theme-toggle:hover { color: var(--fg); }
 
 h1 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
 }
-.page-title { margin-top: var(--double); font-size: 2rem; }
+.page-title { margin-top: var(--double); font-size: 2.75rem; }
 
 /* Intro block: name, then the two lines that belong to it. */
 .intro { margin-top: var(--line); }
 .seeking { color: var(--muted); }
 .seeking a { color: var(--fg); }
-.lede { margin-top: var(--half); font-size: 1.1875rem; }
+.lede { margin-top: var(--half); font-size: 1.375rem; line-height: 1.45; }
 
 /* Sections and headings */
 main > section { margin-top: var(--triple); }
 h2 {
   margin-bottom: var(--half);
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 h3 {
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 400;
   font-style: italic;
   color: var(--muted);
@@ -170,10 +187,10 @@ section p + p { margin-top: var(--line); }
 .results .score { text-align: right; max-width: 50%; }
 .results .figure {
   display: block;
-  font-size: 2.25rem;
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
   font-variant-numeric: lining-nums tabular-nums;
 }
 .results .note { display: block; font-size: 0.875rem; color: var(--muted); }
@@ -181,10 +198,10 @@ section p + p { margin-top: var(--line); }
 /* Plain lists of roles and projects: one line of space between items,
    none inside an item except a quarter before the stack. */
 .entries > li + li { margin-top: var(--line); }
-.entries .what { display: block; }
+.entries .what { display: block; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; }
 .entries .detail { display: block; color: var(--muted); }
 .entries .stack { display: block; margin-top: var(--quarter); font-size: 0.875rem; font-style: italic; color: var(--muted); }
-.entries .when { margin-left: 0.4rem; font-size: 0.875rem; color: var(--muted); }
+.entries .when { margin-left: 0.5rem; font-size: 0.8125rem; font-weight: 400; letter-spacing: 0; color: var(--muted); }
 
 /* Project pages */
 .meta {
@@ -195,10 +212,10 @@ section p + p { margin-top: var(--line); }
   padding: var(--half) 0;
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
 }
 .meta dt { color: var(--muted); }
-.meta dd.stack { font-style: italic; }
+.meta dd.stack { font-family: var(--serif); font-size: 1rem; font-style: italic; }
 
 .steps { counter-reset: step; }
 .steps li {
@@ -216,7 +233,7 @@ section p + p { margin-top: var(--line); }
 }
 
 .decision + .decision { margin-top: var(--line); }
-.decision h3 { font-style: normal; color: var(--fg); font-weight: 600; }
+.decision h3 { font-family: var(--sans); font-style: normal; color: var(--fg); font-weight: 600; }
 .decision p { margin-top: var(--quarter); color: var(--muted); }
 
 main > figure { margin-top: var(--double); }
@@ -228,7 +245,7 @@ figcaption { margin-top: var(--quarter); font-size: 0.875rem; color: var(--muted
   justify-content: space-between;
   gap: var(--gutter);
   margin-top: var(--triple);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
 }
 .pager span { display: block; color: var(--muted); font-size: 0.875rem; }
 .pager .next { text-align: right; margin-left: auto; }
@@ -237,6 +254,7 @@ footer {
   margin-top: var(--quad);
   padding-top: var(--half);
   border-top: 1px solid var(--rule);
+  font-size: 0.875rem;
   color: var(--muted);
 }
 footer ul { display: flex; flex-wrap: wrap; gap: var(--quarter) var(--gutter); }
@@ -263,7 +281,9 @@ footer a { color: var(--fg); }
 }
 
 @media (max-width: 30rem) {
-  html { font-size: 1rem; }
-  .results .figure { font-size: 1.875rem; }
+  html { font-size: 1.0625rem; }
+  h1 { font-size: 2rem; }
+  .page-title { font-size: 2.25rem; }
+  .results .figure { font-size: 2rem; }
   .intro br { display: none; }
 }
